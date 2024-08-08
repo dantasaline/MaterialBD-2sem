@@ -1,0 +1,95 @@
+-- Geração de Modelo físico
+-- Sql ANSI 2003 - brModelo.
+
+
+
+CREATE TABLE endereco (
+idendereco Texto(1) PRIMARY KEY,
+cidade Texto(1),
+cep Texto(1),
+numero Texto(1),
+rua Texto(1),
+bairro Texto(1),
+complemento Texto(1),
+estado Texto(1)
+)
+
+CREATE TABLE fiador (
+idfiador Texto(1) PRIMARY KEY,
+email Texto(1),
+telefone Texto(1),
+rg Texto(1),
+cpf Texto(1),
+nome Texto(1),
+idendereco Texto(1),
+idinquilino Texto(1),
+FOREIGN KEY(idendereco) REFERENCES endereco (idendereco)
+)
+
+CREATE TABLE inquilino (
+rg Texto(1),
+fiador Texto(1),
+telefone Texto(1),
+nome Texto(1),
+email Texto(1),
+cpf Texto(1),
+idinquilino Texto(1) PRIMARY KEY
+)
+
+CREATE TABLE corretor (
+idcorretor Texto(1) PRIMARY KEY,
+email Texto(1),
+telefone Texto(1),
+nome Texto(1)
+)
+
+CREATE TABLE aluguel (
+cod aluguel Texto(1) PRIMARY KEY,
+datafim Texto(1),
+datainicio Texto(1),
+descricao Texto(1),
+valor Texto(1),
+vencimento Texto(1),
+idinquilino Texto(1),
+idcorretor Texto(1),
+idimovel Texto(1),
+FOREIGN KEY(idinquilino) REFERENCES inquilino (idinquilino),
+FOREIGN KEY(idcorretor) REFERENCES corretor (idcorretor)
+)
+
+CREATE TABLE proprietario (
+idproprietario Texto(1) PRIMARY KEY,
+email Texto(1),
+telefone Texto(1),
+nome Texto(1),
+idendereco Texto(1),
+FOREIGN KEY(idendereco) REFERENCES endereco (idendereco)
+)
+
+CREATE TABLE imovel (
+disponivel Texto(1),
+idimovel Texto(1) PRIMARY KEY,
+area Texto(1),
+suite Texto(1),
+nbanheiros Texto(1),
+tipo Texto(1),
+garagem Texto(1),
+lavanderia Texto(1),
+piscina Texto(1),
+Atributo_1 Texto(1),
+comodos Texto(1),
+idmidida Texto(1),
+idproprietario Texto(1),
+idendereco Texto(1),
+FOREIGN KEY(idproprietario) REFERENCES proprietario (idproprietario),
+FOREIGN KEY(idendereco) REFERENCES endereco (idendereco)
+)
+
+CREATE TABLE midias (
+idmidida Texto(1) PRIMARY KEY,
+midia Texto(1)
+)
+
+ALTER TABLE fiador ADD FOREIGN KEY(idinquilino) REFERENCES inquilino (idinquilino)
+ALTER TABLE aluguel ADD FOREIGN KEY(idimovel) REFERENCES imovel (idimovel)
+ALTER TABLE imovel ADD FOREIGN KEY(idmidida) REFERENCES midias (idmidida)
